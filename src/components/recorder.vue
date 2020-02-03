@@ -236,7 +236,9 @@
               :record="record"
               :filename="filename"
               :headers="headers"
-              :upload-url="uploadUrl"/>
+              :upload-url="uploadUrl"
+              :upload-callback="uploadCallback"
+              />
         </div>
       </div>
 
@@ -291,9 +293,14 @@
       Uploader
     },
     mounted () {
-      this.$eventBus.$on('start-upload', () => {
+      this.$eventBus.$on('start-upload', (key, blob) => {
         this.isUploading = true
-        this.beforeUpload && this.beforeUpload('before upload')
+
+        this.beforeUpload && this.beforeUpload(key, blob).then(resp => {
+          this.$eventBus.$emit('end-upload', { status: 'success', response: resp });
+        }).catch(error => {
+          this.$eventBus.$emit('end-upload', { status: 'fail', response: error });
+        })
       })
 
       this.$eventBus.$on('end-upload', (msg) => {

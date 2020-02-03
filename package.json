@@ -9,7 +9,8 @@
     "build": "webpack --env.NODE_ENV=production --mode production --progress --hide-modules"
   },
   "dependencies": {
-    "lamejs": "^1.2.0"
+    "lamejs": "^1.2.0",
+    "lint": "^0.7.0"
   },
   "browserslist": [
     "> 1%",
